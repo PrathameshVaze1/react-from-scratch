@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toggleLikedByStatus } from "../queries";
 import { Puppy } from "../types";
 import { Heart, LoaderCircle, X } from "lucide-react";
 
 export function Shortlist({
   puppies,
+  setPuppies,
 }: {
   puppies: Puppy[];
+  setPuppies: Dispatch<SetStateAction<Puppy[]>>;
 }) {
  
   return (
@@ -31,7 +33,7 @@ export function Shortlist({
                 src={puppy.imageUrl}
               />
               <p className="px-3 text-sm text-slate-800">{puppy.name}</p>
-              <DeleteButton id={puppy.id} />
+              <DeleteButton id={puppy.id} setPuppies={setPuppies} />
             </li>
           ))}
       </ul>
@@ -39,14 +41,19 @@ export function Shortlist({
   );
 }
 
-function DeleteButton({ id }: { id: Puppy["id"] }) {
-   const [pending, setPending] = useState(false);
+function DeleteButton({ id, setPuppies }: { id: Puppy["id"]; setPuppies: Dispatch<SetStateAction<Puppy[]>> }) {
+  const [pending, setPending] = useState(false);
 
   return (
     <button
       onClick={async () => {
         setPending(true);
-        await toggleLikedByStatus(id);
+       const updatedPuppy = await toggleLikedByStatus(id);
+       setPuppies((prevPups) => {
+         return prevPups.map((existingpuppy) =>
+           existingpuppy.id === updatedPuppy.id ? updatedPuppy : existingpuppy,
+         );
+       });
         setPending(false);
       }}
       className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"

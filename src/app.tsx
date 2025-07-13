@@ -54,11 +54,12 @@ function Main() {
     <main>
       <div className="mt-24 grid gap-8 sm:grid-cols-2">
         <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <Shortlist puppies={puppies} />
+        <Shortlist puppies={puppies} setPuppies={setPuppies} />
       </div>
       <PuppiesList
         puppies={puppies}
         searchQuery={searchQuery}
+        setPuppies={setPuppies}
       />
       <NewPuppyForm puppies={puppies} setPuppies={setPuppies} />
     </main>

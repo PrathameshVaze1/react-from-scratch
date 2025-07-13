@@ -3,15 +3,19 @@ import { Heart, LoaderCircle } from "lucide-react";
 import { Puppy } from "../types";
 import { toggleLikedByStatus } from "../queries";
 
-export function LikeToggle({ puppy }: { puppy: Puppy }) {
+export function LikeToggle({ puppy,setPuppies }: { puppy: Puppy,setPuppies: Dispatch<SetStateAction<Puppy[]>> }) {
   const [pending, setPending] = useState(false);
   return (
     <button
       className="group"
       onClick={async () => {
         setPending(true);
-        const updatedPuupy = await toggleLikedByStatus(puppy.id);
-        console.log(updatedPuupy);
+        const updatedPuppy = await toggleLikedByStatus(puppy.id);
+        setPuppies((prevPups)=>{
+          return prevPups.map((existingpuppy)=>
+             existingpuppy.id === updatedPuppy.id ?updatedPuppy : existingpuppy,
+          )
+        });
         setPending(false);
       }}
     >

@@ -1,3 +1,5 @@
+import { Puppy } from "../types";
+
 export async function getPuppies() {
   try {
     const response = await fetch("http://localhost:8000/api/puppies", {
@@ -15,7 +17,6 @@ export async function getPuppies() {
     throw error;
   }
 }
-
 
 export async function toggleLikedByStatus(id: number){
   try {
