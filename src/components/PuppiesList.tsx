@@ -1,12 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import { type Puppy } from "../types";
 import { LikeToggle } from "./LikeToggle";
 
 export function PuppiesList({
   searchQuery,
   puppies,
-  liked,
-  setLiked,
 }: {
   searchQuery: string;
   puppies: Puppy[];
@@ -23,8 +20,6 @@ export function PuppiesList({
           <PuppyCard
             key={puppy.id}
             puppy={puppy}
-            liked={liked}
-            setLiked={setLiked}
           />
         ))}
     </ul>
@@ -33,11 +28,9 @@ export function PuppiesList({
 
 type PuppyCardProps = {
   puppy: Puppy;
-  liked: Puppy["id"][];
-  setLiked: Dispatch<SetStateAction<Puppy["id"][]>>;
 };
 
-function PuppyCard({ puppy, liked, setLiked }: PuppyCardProps) {
+function PuppyCard({ puppy }: PuppyCardProps) {
   return (
     <li
       key={puppy.id}
