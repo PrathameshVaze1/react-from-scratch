@@ -37,3 +37,25 @@ export async function toggleLikedByStatus(id: number){
     throw error;
   }
 }
+
+
+export async function addPuppy(formData: FormData){
+  try {
+    const response = await fetch("http://localhost:8000/api/puppies", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+      },
+      body: formData,
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
